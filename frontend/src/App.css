@@ -1,0 +1,7 @@
+/* App-level overrides – all main styles live in index.css */
+
+/* Tailwind v4 select option dark fix */
+option {
+  background-color: #0f1629;
+  color: #e2e8f0;
+}

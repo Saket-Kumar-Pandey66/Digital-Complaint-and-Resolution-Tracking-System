@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DCRTS – Digital Complaint &amp; Resolution Tracking System</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ======================================================
+       AUTH PAGE
+       ====================================================== -->
+  <div id="page-auth" class="page active">
+    <div class="auth-bg">
+      <div class="auth-grid-lines"></div>
+    </div>
+
+    <div class="auth-wrapper">
+
+      <!-- Brand side -->
+      <div class="auth-brand">
+        <div class="brand-badge">DCRTS</div>
+        <h1 class="brand-title">Digital Complaint &amp;<br>Resolution Tracking System</h1>
+        <p class="brand-sub">Academic Institution Portal &mdash; v1.0 Prototype</p>
+        <div class="brand-features">
+          <div class="bf-item">✦ Submit complaints instantly</div>
+          <div class="bf-item">✦ Track resolution status</div>
+          <div class="bf-item">✦ Secure per-user access</div>
+        </div>
+      </div>
+
+      <!-- Card side -->
+      <div class="auth-card-wrap">
+
+        <!-- LOGIN -->
+        <div id="form-login" class="auth-card">
+          <div class="auth-card-header">
+            <span class="auth-tag">SECURE ACCESS</span>
+            <h2>Sign In</h2>
+          </div>
+          <div class="form-group">
+            <label for="l-user">Username</label>
+            <input type="text" id="l-user" placeholder="Enter your username" autocomplete="off"/>
+          </div>
+          <div class="form-group">
+            <label for="l-pass">Password</label>
+            <input type="password" id="l-pass" placeholder="••••••••"/>
+          </div>
+          <div id="login-msg" class="msg-box hidden"></div>
+          <button class="btn-primary btn-full" onclick="doLogin()">Login &rarr;</button>
+          <p class="auth-toggle">Don't have an account? <a href="#" onclick="toggleAuth('signup')">Sign Up</a></p>
+        </div>
+
+        <!-- SIGNUP -->
+        <div id="form-signup" class="auth-card hidden">
+          <div class="auth-card-header">
+            <span class="auth-tag">NEW ACCOUNT</span>
+            <h2>Create Account</h2>
+          </div>
+          <div class="form-row two-col">
+            <div class="form-group">
+              <label for="s-name">Full Name</label>
+              <input type="text" id="s-name" placeholder="Your full name" autocomplete="off"/>
+            </div>
+            <div class="form-group">
+              <label for="s-email">Email</label>
+              <input type="email" id="s-email" placeholder="you@institution.edu"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="s-user">Username</label>
+            <input type="text" id="s-user" placeholder="Choose a username" autocomplete="off"/>
+          </div>
+          <div class="form-row two-col">
+            <div class="form-group">
+              <label for="s-pass">Password</label>
+              <input type="password" id="s-pass" placeholder="Min. 6 characters"/>
+            </div>
+            <div class="form-group">
+              <label for="s-pass2">Confirm Password</label>
+              <input type="password" id="s-pass2" placeholder="Re-enter password"/>
+            </div>
+          </div>
+          <div id="signup-msg" class="msg-box hidden"></div>
+          <button class="btn-primary btn-full" onclick="doSignup()">Create Account &rarr;</button>
+          <p class="auth-toggle">Already have an account? <a href="#" onclick="toggleAuth('login')">Login</a></p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================
+       DASHBOARD
+       ====================================================== -->
+  <div id="page-dashboard" class="page">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="nav-brand">
+        <span class="nav-badge">DCRTS</span>
+        <span class="nav-title">Complaint &amp; Resolution Tracking</span>
+      </div>
+      <div class="nav-links">
+        <a href="#" id="nav-submit-link" class="nav-link active" onclick="showSection('submit',this)">Submit Complaint</a>
+        <a href="#" class="nav-link" onclick="showSection('track',this)">Track Complaints</a>
+        <a href="#" class="nav-link nav-logout" onclick="doLogout()">Logout</a>
+      </div>
+    </nav>
+
+    <!-- STATUS BAR -->
+    <div class="status-bar">
+      <span>Logged in as: <strong id="status-user">—</strong> <span id="status-role-badge"></span></span>
+      <span id="status-count">Complaints: <strong>0</strong></span>
+    </div>
+
+    <!-- ====== SUBMIT SECTION ====== -->
+    <section id="section-submit" class="content-section active">
+      <div class="section-header">
+        <div class="section-num">01</div>
+        <div>
+          <h2 class="section-title">Submit a Complaint</h2>
+          <p class="section-desc">Fill in the form below to register your complaint. All fields are required.</p>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <div class="form-row two-col">
+          <div class="form-group">
+            <label for="c-name">Full Name</label>
+            <input type="text" id="c-name" placeholder="Your full name"/>
+          </div>
+          <div class="form-group">
+            <label for="c-email">Email Address</label>
+            <input type="email" id="c-email" placeholder="you@institution.edu"/>
+          </div>
+        </div>
+
+        <div class="form-row two-col">
+          <div class="form-group">
+            <label for="c-category">Complaint Category</label>
+            <select id="c-category">
+              <option value="" disabled selected>Select a category</option>
+              <option value="Hostel">Hostel</option>
+              <option value="Academics">Academics</option>
+              <option value="Infrastructure">Infrastructure</option>
+              <option value="Technical">Technical</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Priority Level</label>
+            <div class="priority-group">
+              <label class="priority-option low"><input type="radio" name="priority" value="Low"/> Low</label>
+              <label class="priority-option medium"><input type="radio" name="priority" value="Medium"/> Medium</label>
+              <label class="priority-option high"><input type="radio" name="priority" value="High"/> High</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="c-desc">Complaint Description</label>
+          <textarea id="c-desc" rows="5" placeholder="Describe your complaint in detail…"></textarea>
+        </div>
+
+        <div id="form-error" class="msg-box msg-error hidden">Please fill in all fields before submitting.</div>
+        <div id="form-success" class="msg-box msg-success hidden">✓ Complaint submitted successfully!</div>
+
+        <div class="form-actions">
+          <button class="btn-secondary" onclick="clearForm()">Clear</button>
+          <button class="btn-primary" onclick="submitComplaint()">Submit Complaint &rarr;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== TRACK SECTION ====== -->
+    <section id="section-track" class="content-section">
+      <div class="section-header">
+        <div class="section-num">02</div>
+        <div>
+          <h2 class="section-title">Complaint Tracker</h2>
+          <p class="section-desc" id="track-desc">Your submitted complaints are listed below.</p>
+        </div>
+      </div>
+
+      <!-- FILTER BAR -->
+      <div class="filter-bar">
+        <div class="filter-group">
+          <label>Filter by Category</label>
+          <select id="filter-cat" onchange="renderTable()">
+            <option value="All">All Categories</option>
+            <option value="Hostel">Hostel</option>
+            <option value="Academics">Academics</option>
+            <option value="Infrastructure">Infrastructure</option>
+            <option value="Technical">Technical</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Filter by Priority</label>
+          <select id="filter-pri" onchange="renderTable()">
+            <option value="All">All Priorities</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </div>
+        <div class="filter-group hidden" id="filter-user-group">
+          <label>Filter by User</label>
+          <select id="filter-user" onchange="renderTable()">
+            <option value="All">All Users</option>
+          </select>
+        </div>
+        <div class="filter-stats">
+          <span class="stat-chip" id="chip-total">Showing: 0</span>
+          <span class="stat-chip chip-high" id="chip-high">High: 0</span>
+          <span class="stat-chip chip-pending" id="chip-pending">Submitted: 0</span>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table id="complaints-table">
+          <thead>
+            <tr id="table-head-row">
+              <th>Complaint ID</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Description</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+        <div id="empty-state" class="empty-state">
+          <div class="empty-icon">📋</div>
+          <p>No complaints found.</p>
+          <small>Go to <strong>Submit Complaint</strong> to add one.</small>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /page-dashboard -->
+
+  <script src="script.js"></script>
+</body>
+</html>
